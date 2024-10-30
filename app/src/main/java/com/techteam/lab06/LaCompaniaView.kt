@@ -6,10 +6,14 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import com.techteam.lab06.ManageButton.ButtonManagment
 
 class LaCompaniaView constructor(
     context: Context, attrs: AttributeSet
 ) : View(context, attrs) {
+
+    private val buttonDraw = ButtonManagment(context)
+
     private val paint = Paint().apply {
         isAntiAlias = true
     }
@@ -47,9 +51,11 @@ class LaCompaniaView constructor(
         canvas.drawRect(861.672f, 35f, 962.528f, 169.456f, paint)
         canvas.drawText("Espacio 4", 885f, 105f, paint)
 
+
         // Fila de ambientes 2
         canvas.drawRect(537.537f, 325.521f, 645.582f, 455f, paint)
         canvas.drawText("Espacio 5", 560f, 375f, paint)
+
 
         canvas.drawRect(645.582f, 325.521f, 753.627f, 455f, paint)
         canvas.drawText("Espacio 6", 680f, 375f, paint)
@@ -67,5 +73,6 @@ class LaCompaniaView constructor(
         // Antesacristia antigua
         canvas.drawRect(244.89f, 325.521f, 394.41f, 501.74f, paint)
         canvas.drawText("Capilla de San Ignacio", 260f, 375f, paint)
+        buttonDraw.draw(canvas)
     }
 }
