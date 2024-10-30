@@ -169,4 +169,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="420dp" />
 
+    <com.techteam.lab06.LaCompaniaView
+        android:id="@+id/laCompaniaView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" /> <!-- Inicialmente oculto -->
+
 </FrameLayout>
