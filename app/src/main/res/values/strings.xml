@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Lab06</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="back_arrow">back arrow</string>
+    <string name="molinos_de_sabandia">Molinos de Sabandia</string>
+    <string name="vamos_all">Vamos allá!</string>
+    <string name="back_button">Back button</string>
+</resources>
