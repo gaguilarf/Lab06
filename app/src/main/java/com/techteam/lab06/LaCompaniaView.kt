@@ -5,7 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
 import com.techteam.lab06.ManageButton.ButtonManagment
 
 class LaCompaniaView constructor(
@@ -16,6 +18,19 @@ class LaCompaniaView constructor(
 
     private val paint = Paint().apply {
         isAntiAlias = true
+    }
+
+    init {
+        setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val buttonText = buttonDraw.findButton(event.x, event.y)
+                if (buttonText != "none") {
+                    //aqui va la funcion que recibe el texto del boton
+                    Toast.makeText(context, "Clic en botón con texto: $buttonText", Toast.LENGTH_SHORT).show()
+                }
+            }
+            true
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
