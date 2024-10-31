@@ -6,8 +6,15 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PointF
 import android.util.TypedValue
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.techteam.lab06.R
+import java.io.InputStreamReader
 
 class ButtonManagment(context: Context) {
+
+    private val buttonMap: Map<String, List<ButtonRegion>> = readJson(context)
+
     //##### INICIO FORMATO BOTONES ####
     //stilo para botones
     private val buttonPaint = Paint().apply {
@@ -30,7 +37,14 @@ class ButtonManagment(context: Context) {
     //#### FIN FORMATO BOTONES ####
 
     fun draw(canvas: Canvas) {
-        buttonRetCrucificcion(canvas)
+        // Recorre cada espacio y dibuja sus botones
+        for ((_, buttonList) in buttonMap) {
+            for (button in buttonList) {
+                button.draw(canvas)
+            }
+        }
+
+        /*buttonRetCrucificcion(canvas)
         buttonEsp1(canvas)
         buttonEsp2(canvas)
         buttonEsp3(canvas)
@@ -44,10 +58,50 @@ class ButtonManagment(context: Context) {
         buttonEsp6(canvas)
         buttonEsp7(canvas)
         buttonCapillaIgnacio(canvas)
-        buttonAnteSacristiaAnt(canvas)
+        buttonAnteSacristiaAnt(canvas)*/
     }
 
-    private fun buttonRetCrucificcion(canvas: Canvas) {
+    fun findButton(x: Float, y: Float): String {
+        // Recorre cada espacio y cada botón para encontrar el tocado
+        for ((_, buttonList) in buttonMap) {
+            for (button in buttonList) {
+                if (button.contains(x, y)) {
+                    // Devuelve el texto
+                    return button.text
+                }
+            }
+        }
+        return "none" // Devuelve none si no se encontró ningún botón
+    }
+
+    private fun readJson(context: Context): Map<String, List<ButtonRegion>> {
+        val inputStream = context.resources.openRawResource(R.raw.cords)
+        val reader = InputStreamReader(inputStream)
+
+        val gson = Gson()
+        val rawMapType = object : TypeToken<Map<String, List<ButtonData>>>() {}.type
+        val rawMap = gson.fromJson<Map<String, List<ButtonData>>>(reader, rawMapType)
+
+        reader.close()
+
+        // Convierte el JSON en un Map<String, List<CircleRegion>>
+        val circleMap = mutableMapOf<String, List<ButtonRegion>>()
+        for ((spaceKey, circles) in rawMap) {
+            val circleRegions = circles.map { circleData ->
+                ButtonRegion(
+                    centerX = circleData.centerX,
+                    centerY = circleData.centerY,
+                    text = circleData.text,
+                    context = context
+                )
+            }
+            circleMap[spaceKey] = circleRegions
+        }
+
+        return circleMap
+    }
+
+    /*private fun buttonRetCrucificcion(canvas: Canvas) {
         val centro47 = PointF(432f, 50f)
         canvas.drawCircle(centro47.x, centro47.y, buttonRadio, buttonPaint)
         canvas.drawText("47", centro47.x - movX, centro47.y + movY, buttonText)
@@ -333,5 +387,5 @@ class ButtonManagment(context: Context) {
         val centro61 = PointF(380f, 437f)
         canvas.drawCircle(centro61.x, centro61.y, buttonRadio, buttonPaint)
         canvas.drawText("61", centro61.x - movX, centro61.y + movY, buttonText)
-    }
+    }*/
 }
